@@ -1,0 +1,470 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+    \setmainfont[]{NaumGothic}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={ComReview},
+            pdfauthor={swgooddream},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{ComReview}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{swgooddream}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2018년 12월 3일}
+
+
+\begin{document}
+\maketitle
+
+\subsection{기업리뷰 분석 2}\label{--2}
+
+\paragraph{탐색적 데이터 분석(EDA)과 추천모형 적합}\label{--eda--}
+
+\subsubsection{탐색적 데이터 분석 (Explortory Data
+Analysis)}\label{---explortory-data-analysis}
+
+\paragraph{summary() 함수를 사용하여 기초 통계량을
+확인}\label{summary-----}
+
+\paragraph{히스토그램이나 상자수염그림을 그려 데이터의 분포
+확인}\label{-----}
+
+\paragraph{추천여부와 성장예상, 그리고 별점 데이터를 중점으로 인사이트를
+찾아보는 작업}\label{--------}
+
+\subsubsection{필요한 패키지를 불러옵니다.}\label{--.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'tidyverse' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## -- Attaching packages ----------------------------------------------------------------- tidyverse 1.2.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## √ ggplot2 3.1.0     √ purrr   0.2.5
+## √ tibble  1.4.2     √ dplyr   0.7.8
+## √ tidyr   0.8.1     √ stringr 1.3.1
+## √ readr   1.1.1     √ forcats 0.3.0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'ggplot2' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tibble' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tidyr' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'readr' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'purrr' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'dplyr' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'stringr' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'forcats' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts -------------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(stringr)}
+\KeywordTok{library}\NormalTok{(stringi)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'stringi' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(lubridate)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'lubridate' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'lubridate'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:base':
+## 
+##     date
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(magrittr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'magrittr' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'magrittr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     set_names
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:tidyr':
+## 
+##     extract
+\end{verbatim}
+
+\subsubsection{그래프 제목으로 자주 사용할 회사이름을
+지정합니다.}\label{-----.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{compNm <-}\StringTok{ '삼성화재'}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{RDS 파일을 읽습니다.}\label{rds--.}
+
+\begin{verbatim}
+## 'data.frame':    283 obs. of  18 variables:
+##  $ 회사이름: Factor w/ 1 level "삼성화재해상보험(주)": 1 1 1 1 1 1 1 1 1 1 ...
+##  $ 회사코드: Factor w/ 1 level "30056": 1 1 1 1 1 1 1 1 1 1 ...
+##  $ 리뷰코드: Factor w/ 283 levels "849559","855579",..: 5 4 3 2 1 10 9 8 7 6 ...
+##  $ 직종구분: Factor w/ 14 levels "경영/기획/컨설팅",..: 3 2 1 3 2 3 2 5 4 2 ...
+##  $ 재직상태: Factor w/ 2 levels "전직원","현직원": 2 2 1 2 2 1 1 1 2 1 ...
+##  $ 근무지역: Factor w/ 36 levels "부산","서울",..: 2 2 2 1 2 2 2 2 2 3 ...
+##  $ 등록일자: Factor w/ 241 levels "2018/10/16","2018/10/21",..: 5 4 3 2 1 7 6 6 9 8 ...
+##  $ 별점평가: num  60 60 60 80 80 20 60 100 80 20 ...
+##  $ 승진기회: num  40 60 60 80 80 60 40 80 80 20 ...
+##  $ 복지급여: num  80 100 60 100 100 100 80 100 100 20 ...
+##  $ 워라밸  : num  40 80 60 60 60 20 40 80 80 20 ...
+##  $ 사내문화: num  60 60 60 60 80 20 60 100 80 20 ...
+##  $ 경영진  : num  20 40 60 60 80 20 60 100 80 20 ...
+##  $ 기업장점: Factor w/ 283 levels "교육프로세스가 잘 갖추어져 있어 지속적으로 업무에 대한 지식 확충이 가능하다. 원천징수에 찍히는 급여지급내역이 엄청나게 많다",..: 3 5 4 1 2 9 6 8 7 10 ...
+##  $ 기업단점: Factor w/ 282 levels "단기 목표 지향적인 문화. 선진 외국 기업의 겉만 따라하려는 문화.",..: 3 2 4 5 1 10 8 6 7 9 ...
+##  $ 바라는점: Factor w/ 281 levels "기업 네임밸류 믿고 타사보다 질 떨어지는 상품 내놓으시면 이대로 가다가는 업계 1위 금세 뺏깁니다.",..: 1 3 5 2 4 9 8 10 6 7 ...
+##  $ 성장예상: Factor w/ 2 levels "비슷","성장": NA NA 2 2 1 1 2 2 1 2 ...
+##  $ 추천여부: Factor w/ 2 levels "이 기업을 추천 합니다!",..: 2 1 1 1 1 2 1 1 1 2 ...
+\end{verbatim}
+
+\begin{verbatim}
+##               회사이름 회사코드 리뷰코드  직종구분 재직상태 근무지역
+## 1 삼성화재해상보험(주)    30056   877876 영업/제휴   현직원     서울
+##    등록일자 별점평가 승진기회 복지급여 워라밸 사내문화 경영진
+## 1 2018/11/8       60       40       80     40       60     20
+##                                                                                                                 기업장점
+## 1 대기업이라 기업의 조직 체계나 업무 분장, 복리후생제도 등이 타 기업보다는 확실히 정립되어 있음. 월급 새벽 2~3시 칼입금.
+##                                                                                                                                                                                                                                                                                                                                                                                                        기업단점
+## 1 쓸데없는 취합이 너무 많음. 위에서 취합해서 피드백 의견 내라고 하면 관리부서는 또 밑으로 내림. 밑 지역단이나 지점에서는 또 지점장들이 총무에게 내림. 총무는 또 설계사들에게 취합. 그걸 또 지역단 보고 -> 사업부 보고 등등 비효율적으로 일하는 프로세스 정말 많음. 인력은 늘 부족하며 연봉 상승 협의는 항상 결렬됨. 겉으로는 사회공헌 많이 하고 기부도 많이 하나 안에서 직원들을 그정도로 챙겼으면 좋겠다 싶음.
+##                                                                                          바라는점
+## 1 기업 네임밸류 믿고 타사보다 질 떨어지는 상품 내놓으시면 이대로 가다가는 업계 1위 금세 뺏깁니다.
+##   성장예상                     추천여부
+## 1     <NA> 이 기업을 추천하지 않습니다.
+\end{verbatim}
+
+\subsubsection{데이타 전처리}\label{-}
+
+\subparagraph{별점을 1\textasciitilde{}5점으로 환산합니다.}\label{-15-.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dt[, }\DecValTok{8}\OperatorTok{:}\DecValTok{13}\NormalTok{] <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\DataTypeTok{X =}\NormalTok{ dt[, }\DecValTok{8}\OperatorTok{:}\DecValTok{13}\NormalTok{], }\DataTypeTok{FUN =} \ControlFlowTok{function}\NormalTok{(x) x }\OperatorTok{/}\StringTok{ }\DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{추천여부 컬럼을 '추천'과 '비추'로
+변환합니다.}\label{----.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dt}\OperatorTok{$}\NormalTok{추천여부 <-}\StringTok{ }\KeywordTok{str_extract}\NormalTok{(}\DataTypeTok{string =}\NormalTok{ dt}\OperatorTok{$}\NormalTok{추천여부, }\DataTypeTok{pattern =} \StringTok{'추천(?= )'}\NormalTok{)}
+\NormalTok{dt}\OperatorTok{$}\NormalTok{추천여부[}\KeywordTok{is.na}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ dt}\OperatorTok{$}\NormalTok{추천여부) }\OperatorTok{==}\StringTok{ }\OtherTok{TRUE}\NormalTok{] <-}\StringTok{ '비추'}
+\NormalTok{dt}\OperatorTok{$}\NormalTok{추천여부}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] "비추" "추천" "추천" "추천" "추천" "비추" "추천" "추천" "추천" "비추"
+##  [11] "추천" "비추" "비추" "비추" "추천" "추천" "비추" "추천" "추천" "비추"
+##  [21] "추천" "비추" "추천" "추천" "추천" "추천" "비추" "비추" "비추" "추천"
+##  [31] "비추" "추천" "추천" "추천" "추천" "추천" "추천" "추천" "추천" "추천"
+##  [41] "비추" "비추" "추천" "비추" "추천" "비추" "비추" "추천" "비추" "추천"
+##  [51] "추천" "추천" "비추" "추천" "추천" "추천" "추천" "비추" "추천" "비추"
+##  [61] "추천" "비추" "비추" "비추" "비추" "추천" "비추" "추천" "추천" "추천"
+##  [71] "추천" "비추" "비추" "추천" "비추" "비추" "추천" "추천" "추천" "비추"
+##  [81] "비추" "추천" "추천" "추천" "추천" "비추" "추천" "비추" "추천" "비추"
+##  [91] "추천" "비추" "추천" "추천" "비추" "추천" "비추" "추천" "비추" "비추"
+## [101] "추천" "비추" "추천" "비추" "추천" "추천" "추천" "추천" "추천" "추천"
+## [111] "추천" "비추" "추천" "비추" "추천" "비추" "추천" "비추" "비추" "비추"
+## [121] "추천" "추천" "추천" "추천" "추천" "추천" "비추" "추천" "비추" "비추"
+## [131] "비추" "비추" "추천" "비추" "추천" "추천" "추천" "추천" "비추" "추천"
+## [141] "추천" "추천" "추천" "비추" "추천" "추천" "추천" "추천" "추천" "추천"
+## [151] "추천" "비추" "비추" "비추" "추천" "추천" "비추" "비추" "추천" "추천"
+## [161] "추천" "추천" "추천" "비추" "비추" "비추" "비추" "비추" "비추" "추천"
+## [171] "비추" "추천" "추천" "비추" "비추" "비추" "비추" "비추" "추천" "추천"
+## [181] "추천" "추천" "추천" "추천" "비추" "추천" "추천" "추천" "추천" "추천"
+## [191] "추천" "비추" "비추" "비추" "추천" "추천" "비추" "비추" "비추" "추천"
+## [201] "비추" "추천" "비추" "비추" "비추" "추천" "추천" "추천" "추천" "추천"
+## [211] "비추" "추천" "비추" "비추" "비추" "추천" "추천" "추천" "추천" "비추"
+## [221] "비추" "추천" "비추" "추천" "비추" "추천" "추천" "비추" "추천" "추천"
+## [231] "추천" "추천" "추천" "추천" "비추" "추천" "비추" "비추" "비추" "추천"
+## [241] "비추" "비추" "비추" "추천" "추천" "비추" "추천" "추천" "추천" "추천"
+## [251] "추천" "비추" "추천" "비추" "추천" "추천" "비추" "추천" "비추" "비추"
+## [261] "비추" "비추" "비추" "추천" "비추" "추천" "추천" "추천" "추천" "비추"
+## [271] "추천" "비추" "추천" "추천" "비추" "추천" "추천" "추천" "비추" "추천"
+## [281] "비추" "비추" "추천"
+\end{verbatim}
+
+\subsubsection{성장예상과 추천여부 컬럼을 범주형으로
+변환합니다.}\label{----.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dt}\OperatorTok{$}\NormalTok{성장예상 <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ dt}\OperatorTok{$}\NormalTok{성장예상)}
+\NormalTok{dt}\OperatorTok{$}\NormalTok{추천여부 <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ dt}\OperatorTok{$}\NormalTok{추천여부)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{등록일자를 날짜형 벡터로 변환합니다.}\label{---.}
+
+dt\(등록일자 <- as.Date(x = dt\)등록일자, format = `\%Y/\%m/\%d')
+
+\section{등록연도 컬럼을 추가합니다.}\label{--.}
+
+dt\(등록연도 <- year(dt\)등록일자) str(dt)
+
+\section{ggplot() 함수를 이용하여 다양한 그래프
+그려봄}\label{ggplot-----}
+
+\section{나만의 ggplot 설정을 지정합니다.}\label{-ggplot--.}
+
+mytheme \textless{}- theme( panel.grid = element\_blank(),
+panel.background = element\_rect(fill = `white', color = `white', size =
+1.2), plot.background = element\_blank(), plot.title =
+element\_text(family = `MalgunGothic', face = `bold', hjust = 0.5, size
+= 14), axis.title = element\_text(family = `MalgunGothic'), axis.text.x
+= element\_text(size = 10, face = `bold'), axis.text.y =
+element\_text(family = `MalgunGothic'), axis.ticks = element\_blank(),
+strip.text.x = element\_text(size = 10, face = `bold', family =
+`MalgunGothic'), strip.text.y = element\_text(size = 10, face = `bold',
+angle = 270, family = `MalgunGothic'), strip.background.y =
+element\_rect(fill = `gray80', color = `white'), legend.title =
+element\_text(family = `MalgunGothic'), legend.text =
+element\_text(family = `MalgunGothic'), legend.position = `bottom')
+
+\section{재직상태별 성장예상 및 추천여부 확인: 카이제곱
+검정}\label{------}
+
+\subsection{전직과 현직 등 재직상태별로 회사의 성장성을 예상하고 추천
+또는 비추천 여부가 달라질 것으로 예상}\label{-------------}
+
+\section{추천/비추 여부 막대그래프를 그립니다.}\label{---.}
+
+drawBarPlot \textless{}- function(data, workGb, var) \{
+
+\# 빈도테이블을 생성합니다. tbl \textless{}- data{[}data\$재직상태 ==
+workGb, c(`회사이름', var){]} \%\textgreater{}\% table()
+\%\textgreater{}\% t()
+
+\# 막대그래프를 그립니다. bp \textless{}- barplot(height = tbl, ylim =
+c(0, max(tbl)*1.25), names.arg = rownames(x = tbl), beside = TRUE, \#
+legend = TRUE, main = str\_c(workGb, var, sep = `') )
+
+\# 빈도수를 추가합니다. text(x = bp, y = tbl, labels = tbl, pos = 3) \}
+
+\section{그래픽 파라미터를 설정합니다.}\label{--.}
+
+par(mfrow = c(2, 2), family = `Malgun Gothic', mar = c(5, 4, 4, 2))
+
+\section{막대그래프를 그립니다.}\label{-.}
+
+drawBarPlot(data = dt, workGb = `전직원', var = `추천여부')
+drawBarPlot(data = dt, workGb = `전직원', var = `성장예상')
+drawBarPlot(data = dt, workGb = `현직원', var = `추천여부')
+drawBarPlot(data = dt, workGb = `현직원', var = `성장예상')
+
+\section{카이제곱 검정으로 다시 확인}\label{---}
+
+\section{필요한 패키지를 불러옵니다.}\label{--.-1}
+
+install.packages(``descr'') library(descr)
+
+\section{카이제곱 검정을 위한 사용자 정의 함수를
+생성합니다.}\label{------.}
+
+chisqTest \textless{}- function(var1, var2) \{
+
+\# 변수를 설정합니다. v1 \textless{}- eval(expr = parse(text =
+str\_c(`dt', var1, sep =
+`\(')))  v2 <- eval(expr = parse(text = str_c('dt', var2, sep = '\)')))
+
+\# 빈도테이블을 생성합니다. tbl \textless{}- table(v1, v2)
+
+\# 교차테이블을 생성합니다. CrossTable(x = tbl, expected = TRUE, prop.r
+= FALSE, prop.c = FALSE, prop.t = FALSE, prop.chisq = FALSE)
+\%\textgreater{}\% print()
+
+\# 카이제곱 검정을 실시합니다. chisq.test(x = tbl) \%\textgreater{}\%
+print() \}
+
+\section{재직상태 * 성장예상}\label{-}
+
+chisqTest(var1 = `재직상태', var2 = `성장예상')
+
+\section{재직상태 * 추천여부}\label{-}
+
+chisqTest(var1 = `재직상태', var2 = `추천여부')
+
+
+\end{document}

@@ -1,0 +1,176 @@
+---
+html_document: default
+author: "swgooddream"
+date: "2018.12.3"
+output:
+  html_document:
+    df_print: paged
+  latex_engine: xelatex
+  pdf_document: default
+  word_document: default
+  theme: sandstone
+mainfont: NaumGothic
+html_notebook: default
+title: "ComReview"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##기업리뷰 분석 2
+
+####탐색적 데이터 분석(EDA)과 추천모형 적합
+
+###탐색적 데이터 분석 (Explortory Data Analysis)
+####summary() 함수를 사용하여 기초 통계량을 확인
+####히스토그램이나 상자수염그림을 그려 데이터의 분포 확인 
+####추천여부와 성장예상, 그리고 별점 데이터를 중점으로 인사이트를 찾아보는 작업
+
+###필요한 패키지를 불러옵니다.
+
+```{r cars}
+library(tidyverse)
+library(stringr)
+library(stringi)
+library(lubridate)
+library(magrittr)
+```
+
+### 그래프 제목으로 자주 사용할 회사이름을 지정합니다. 
+```{r}
+compNm <- '삼성화재'
+```
+
+### RDS 파일을 읽습니다. 
+```{r pressure, echo=FALSE}
+dt <- readRDS(file = './data/Company_Review_Data_삼성화재해상보험.RDS')
+str(dt)
+head(dt, 1)
+```
+
+###데이타 전처리
+##### 별점을 1~5점으로 환산합니다.
+```{r}
+dt[, 8:13] <- sapply(X = dt[, 8:13], FUN = function(x) x / 20)
+```
+
+### 추천여부 컬럼을 '추천'과 '비추'로 변환합니다.
+```{r}
+dt$추천여부 <- str_extract(string = dt$추천여부, pattern = '추천(?= )')
+dt$추천여부[is.na(x = dt$추천여부) == TRUE] <- '비추'
+head(dt$추천여부)
+```
+
+### 성장예상과 추천여부 컬럼을 범주형으로 변환합니다. 
+```{r}
+dt$성장예상 <- factor(x = dt$성장예상)
+dt$추천여부 <- factor(x = dt$추천여부)
+```
+
+### 등록일자를 날짜형 벡터로 변환합니다.
+```{r}
+dt$등록일자 <- as.Date(x = dt$등록일자, format = '%Y/%m/%d')
+```
+
+### 등록연도 컬럼을 추가합니다. 
+```{r}
+dt$등록연도 <- year(dt$등록일자)
+```
+
+###ggplot() 함수를 이용하여 다양한 그래프 그려봄 
+##### 나만의 ggplot 설정을 지정합니다.
+```{r}
+mytheme <- theme(
+  panel.grid = element_blank(), 
+  panel.background = element_rect(fill = 'white', color = 'white', size = 1.2), 
+  plot.background = element_blank(), 
+  plot.title = element_text(family = 'MalgunGothic', face = 'bold', hjust = 0.5, size = 14),
+  axis.title = element_text(family = 'MalgunGothic'), 
+  axis.text.x = element_text(size = 10, face = 'bold'), 
+  axis.text.y = element_text(family = 'MalgunGothic'), 
+  axis.ticks = element_blank(), 
+  strip.text.x = element_text(size = 10, face = 'bold', family = 'MalgunGothic'), 
+  strip.text.y = element_text(size = 10, face = 'bold', angle = 270, family = 'MalgunGothic'), 
+  strip.background.y = element_rect(fill = 'gray80', color = 'white'),
+  legend.title = element_text(family = 'MalgunGothic'),
+  legend.text = element_text(family = 'MalgunGothic'),
+  legend.position = 'bottom')
+```
+
+###재직상태별 성장예상 및 추천여부 확인: 카이제곱 검정
+####전직과 현직 등 재직상태별로 회사의 성장성을 예상하고 추천 또는 비추천 여부  
+##### 추천/비추 여부 막대그래프를 그립니다.
+```{r}
+drawBarPlot <- function(data, workGb, var) {
+  
+  # 빈도테이블을 생성합니다. 
+  tbl <- data[data$재직상태 == workGb, c('회사이름', var)] %>% table() %>% t()
+  
+  # 막대그래프를 그립니다. 
+  bp <- barplot(height = tbl, 
+                ylim = c(0, max(tbl)*1.25), 
+                names.arg = rownames(x = tbl),
+                beside = TRUE, 
+                # legend = TRUE, 
+                main = str_c(workGb, var, sep = ' ') )
+  
+  # 빈도수를 추가합니다. 
+  text(x = bp, y = tbl, labels = tbl, pos = 3)
+}
+```
+
+### 그래픽 파라미터를 설정합니다. 
+```{r}
+par(mfrow = c(2, 2), family = 'Malgun Gothic', mar = c(5, 4, 4, 2))
+```
+
+### 막대그래프를 그립니다. 
+```{r}
+drawBarPlot(data = dt, workGb = '전직원', var = '추천여부')
+drawBarPlot(data = dt, workGb = '전직원', var = '성장예상')
+drawBarPlot(data = dt, workGb = '현직원', var = '추천여부')
+drawBarPlot(data = dt, workGb = '현직원', var = '성장예상')
+```
+
+###카이제곱 검정으로 다시 확인
+#####필요한 패키지를 불러옵니다.
+```{r}
+library(descr)
+```
+
+#### 카이제곱 검정을 위한 사용자 정의 함수를 생성합니다. 
+```{r}
+chisqTest <- function(var1, var2) {
+  
+  # 변수를 설정합니다. 
+  v1 <- eval(expr = parse(text = str_c('dt', var1, sep = '$')))
+  v2 <- eval(expr = parse(text = str_c('dt', var2, sep = '$')))
+  
+  # 빈도테이블을 생성합니다. 
+  tbl <- table(v1, v2)
+  
+  # 교차테이블을 생성합니다. 
+  CrossTable(x = tbl, 
+             expected = TRUE, 
+             prop.r = FALSE, 
+             prop.c = FALSE, 
+             prop.t = FALSE, 
+             prop.chisq = FALSE) %>% 
+    print()
+  
+  # 카이제곱 검정을 실시합니다. 
+  chisq.test(x = tbl) %>% print()
+}
+```
+
+### 재직상태 * 성장예상
+```{r}
+chisqTest(var1 = '재직상태', var2 = '성장예상')
+```
+
+### 재직상태 * 추천여부
+```{r}
+chisqTest(var1 = '재직상태', var2 = '추천여부')
+```
+
